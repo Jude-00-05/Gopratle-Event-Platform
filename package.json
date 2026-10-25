@@ -1,0 +1,12 @@
+{
+  "name": "gopratle-event-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GoPratle Event Platform — Multi-step Requirement Posting Flow",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:backend": "npm --prefix backend run build"
+  }
+}
