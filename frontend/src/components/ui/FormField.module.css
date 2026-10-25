@@ -1,0 +1,39 @@
+.field {
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+}
+
+.label {
+  font-size:   14px;
+  font-weight: 500;
+  color:       var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.required {
+  color: var(--color-error);
+}
+
+.hint {
+  font-size: 13px;
+  color:     var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.error {
+  font-size:  13px;
+  color:      var(--color-error);
+  display:    flex;
+  align-items: center;
+  gap:        4px;
+  margin-top: 2px;
+}
+
+/* Tint the control inside the field when error is present */
+.hasError :global(input),
+.hasError :global(select),
+.hasError :global(textarea) {
+  border-color: var(--color-error) !important;
+  background:   var(--color-error-light);
+}
