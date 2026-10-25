@@ -1,5 +1,4 @@
 import React from 'react';
-import { Checkbox } from './Checkbox';
 import styles from './CheckboxGroup.module.css';
 
 interface Option {
@@ -34,20 +33,41 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   return (
     <div className={`${styles.group} ${className}`} role="group">
       <div className={styles.grid}>
-        {options.map((opt) => (
-          <div
-            key={opt.value}
-            className={`${styles.card} ${value.includes(opt.value) ? styles.selected : ''}`}
-            onClick={() => handleToggle(opt.value)}
-          >
-            <Checkbox
-              label={opt.label}
-              description={opt.description}
-              checked={value.includes(opt.value)}
-              onChange={() => {}} // handled by card click or label click
-            />
-          </div>
-        ))}
+        {options.map((opt) => {
+          const isChecked = value.includes(opt.value);
+          return (
+            <label
+              key={opt.value}
+              className={`${styles.card} ${isChecked ? styles.selected : ''}`}
+            >
+              <input
+                type="checkbox"
+                className={styles.input}
+                checked={isChecked}
+                onChange={() => handleToggle(opt.value)}
+              />
+              <span className={styles.checkboxCustom} aria-hidden="true">
+                <svg
+                  className={styles.checkmark}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="3.5 8 6.5 11 12.5 5" />
+                </svg>
+              </span>
+              <span className={styles.labelContent}>
+                <span className={styles.labelText}>{opt.label}</span>
+                {opt.description && (
+                  <span className={styles.descriptionText}>{opt.description}</span>
+                )}
+              </span>
+            </label>
+          );
+        })}
       </div>
       {error && (
         <span className={styles.error} role="alert">
