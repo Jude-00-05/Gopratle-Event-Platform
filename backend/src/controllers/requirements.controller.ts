@@ -39,3 +39,19 @@ export async function createRequirement(
     next(err);
   }
 }
+
+export async function getRequirements(
+  _req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const list = await Requirement.find().sort({ createdAt: -1 }).lean();
+    res.json({
+      success: true,
+      data: list,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
