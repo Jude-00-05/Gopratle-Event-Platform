@@ -46,3 +46,15 @@ export async function submitRequirement(payload: RequirementPayload): Promise<Ap
     clearTimeout(timeoutId);
   }
 }
+
+export async function fetchRequirements(): Promise<any[]> {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+  const res = await fetch(`${baseUrl}/api/requirements`, {
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error('Failed to load requirements');
+  }
+  const body = await res.json();
+  return body.data || [];
+}
