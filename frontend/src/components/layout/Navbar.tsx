@@ -13,7 +13,7 @@ export const Navbar: React.FC = () => {
         </Link>
         <nav className={styles.navLinks}>
           <Link href="/requirements" className={styles.navLink}>
-            Browse Requirements
+            Browse events
           </Link>
           <Link href="/requirements/new" className={styles.postBtn}>
             Post an event <ArrowUpRight size={15} aria-hidden="true" />
