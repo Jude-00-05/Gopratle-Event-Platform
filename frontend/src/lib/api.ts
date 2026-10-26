@@ -10,9 +10,38 @@ export class ApiError extends Error {
   }
 }
 
+const LOCAL_API_BASE_URL = 'http://localhost:4000';
+
+export function getRequirementsEndpoint(
+  configuredBaseUrl = process.env.NEXT_PUBLIC_API_URL || LOCAL_API_BASE_URL
+): string {
+  const baseUrl = configuredBaseUrl.trim();
+  if (!baseUrl || /^[./\\]/.test(baseUrl)) {
+    throw new Error('NEXT_PUBLIC_API_URL must be an absolute API host, not a relative path');
+  }
+
+  const hasScheme = /^[a-z][a-z\d+.-]*:\/\//i.test(baseUrl);
+  const isLocalHost = /^(localhost|127(?:\.\d{1,3}){3})(:\d+)?(?:\/|$)/i.test(baseUrl);
+  const absoluteBaseUrl = hasScheme
+    ? baseUrl
+    : `${isLocalHost ? 'http' : 'https'}://${baseUrl}`;
+
+  let parsedBaseUrl: URL;
+  try {
+    parsedBaseUrl = new URL(absoluteBaseUrl);
+  } catch {
+    throw new Error('NEXT_PUBLIC_API_URL must be a valid HTTP or HTTPS URL');
+  }
+
+  if (parsedBaseUrl.protocol !== 'http:' && parsedBaseUrl.protocol !== 'https:') {
+    throw new Error('NEXT_PUBLIC_API_URL must use HTTP or HTTPS');
+  }
+
+  return new URL('/api/requirements', parsedBaseUrl.origin).toString();
+}
+
 export async function submitRequirement(payload: RequirementPayload): Promise<ApiSuccess> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!baseUrl) {
+  if (!process.env.NEXT_PUBLIC_API_URL) {
     throw new Error('NEXT_PUBLIC_API_URL is not configured');
   }
 
@@ -21,7 +50,7 @@ export async function submitRequirement(payload: RequirementPayload): Promise<Ap
   const timeoutId = setTimeout(() => controller.abort(), 30_000);
 
   try {
-    const res = await fetch(`${baseUrl}/api/requirements`, {
+    const res = await fetch(getRequirementsEndpoint(process.env.NEXT_PUBLIC_API_URL), {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(payload),
@@ -48,8 +77,7 @@ export async function submitRequirement(payload: RequirementPayload): Promise<Ap
 }
 
 export async function fetchRequirements(): Promise<any[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-  const res = await fetch(`${baseUrl}/api/requirements`, {
+  const res = await fetch(getRequirementsEndpoint(), {
     cache: 'no-store',
   });
   if (!res.ok) {
