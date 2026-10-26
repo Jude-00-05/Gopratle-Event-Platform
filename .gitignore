@@ -1,29 +1,36 @@
 # Dependencies
 node_modules/
 
-# Environment secrets — NEVER commit these
+# Local environment files; keep example templates tracked
 .env
-.env.local
-.env.production
-.env.*.local
-frontend/.env.local
-backend/.env
+.env.*
+!.env.example
+!.env.*.example
 
-# Next.js build output
-frontend/.next/
-frontend/out/
+# Build and test output
+.next/
+out/
+dist/
+build/
+coverage/
+test-results/
+playwright-report/
 
-# TypeScript build output
-backend/dist/
+# Vercel local project metadata
+.vercel/
 
-# OS artifacts
-.DS_Store
-Thumbs.db
-
-# Editor
-.vscode/settings.json
-.idea/
-
-# Logs
+# Logs and debug output
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS/editor artifacts
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.pem
+.idea/
+.vscode/settings.json
+*.tsbuildinfo

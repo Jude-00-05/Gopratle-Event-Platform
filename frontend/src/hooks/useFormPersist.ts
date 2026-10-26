@@ -12,7 +12,8 @@ type Setter = (data: unknown) => void;
  * Trade-offs:
  * - survives page refresh within the same tab
  * - cleared when the tab is closed (unlike localStorage) — acceptable for transient form data
- * - validated on restore; malformed or schema-mismatched data is discarded silently
+ * - malformed JSON or data without the expected top-level shape is discarded silently
+ * - restored fields are not revalidated against the form's Zod schemas
  * - cleared explicitly after successful submission via clearPersistedForm()
  */
 export function useFormPersist(data: unknown, setData: Setter): void {

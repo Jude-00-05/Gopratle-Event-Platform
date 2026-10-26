@@ -1,234 +1,144 @@
-# GoPratle Event Platform — Multi-Step Requirement Posting Flow
+# GoPratle Event Platform
 
-A production-ready, full-stack event requirement posting application built for the GoPratle Full-Stack Developer Intern assignment.
+GoPratle is a full-stack event requirement app built for the GoPratle Full-Stack Developer Intern assignment. Customers describe an event in a four-step form, select a planner, performer, or crew, review the brief, and submit it to the API. Requirements are validated with Zod and stored in MongoDB Atlas through Mongoose.
 
-Users post event requirements through an intuitive, category-aware 4-step wizard. The form validates all inputs client-side via Zod, persists progress to `sessionStorage` across page refreshes, safely manages category transitions, and persists structured documents to MongoDB Atlas through an Express TypeScript REST API.
+## Deployed application
 
----
+- Frontend: <https://gopratle-event-platform.vercel.app>
+- Backend API: <https://gopratle-event-api.vercel.app>
+- Repository: <https://github.com/Jude-00-05/Gopratle-Event-Platform>
+- Database: MongoDB Atlas
 
-## 🚀 Key Features
+## Stack
 
-- **4-Step Guided Flow**:
-  1. **Event Basics**: Common event details (Event Name, Type, Dates, Location, Venue, and Service Category).
-  2. **Category Requirements**: Dynamic quantitative inputs tailored to **Event Planner**, **Performer**, or **Crew** (Pax, Scope, Roles, Duration, Gear, and INR Budget).
-  3. **Technical & Operational Logistics**: Deep qualitative specifications (Decor styling, Catering, Sound riders, Lighting, Backline, Shift schedules, and Responsibilities).
-  4. **Review & Submission**: Comprehensive structured review with per-step `[Edit]` shortcuts, duplicate submission guard, cold-start resilience, and instant reference ID confirmation.
-- **Dynamic Category Switching**:
-  - Safe category switching with a confirmation dialog to prevent accidental loss of category-specific form entries.
-  - Automatically resets stale child fields when switching between Planner, Performer, and Crew.
-- **Session Persistence**:
-  - Auto-saves form progress into `sessionStorage`. Survives accidental browser refreshes.
-  - Automatically cleared on successful submission or manual reset.
-- **End-to-End Type Safety & Validation**:
-  - Mirrored Zod schemas with discriminated unions (`category: 'planner' | 'performer' | 'crew'`).
-  - Real-time field validation, date range validation (Start Date ≤ End Date), and numeric INR currency handling.
-- **Production Resilience**:
-  - 30-second `AbortController` timeout handling Render free-tier cold starts gracefully with descriptive user notifications.
-  - Dedicated `/health` endpoint for uptime monitoring.
+- Frontend: Next.js 16 App Router, React 19, TypeScript, React Hook Form, Zod, CSS Modules, and Lucide icons.
+- Backend: Node.js, Express 4, TypeScript, Zod, Helmet, and the CORS middleware.
+- Persistence: MongoDB Atlas with Mongoose.
+- Hosting: separate Vercel projects for the frontend and backend.
 
----
+## Repository layout
 
-## 📁 Repository Structure
-
-```
-gopratle-event-platform/
-├── .gitignore
+```text
+.
 ├── README.md
-├── package.json               # Root convenience runner
-├── frontend/                  # Next.js 16 App Router (TypeScript, Turbopack)
+├── package.json                 # Root development and build shortcuts
+├── frontend/
 │   ├── .env.local.example
-│   ├── next.config.ts
-│   ├── tsconfig.json
 │   ├── package.json
 │   └── src/
-│       ├── app/               # Routes, globals.css, layout
-│       ├── components/
-│       │   ├── ui/            # Button, Input, Select, Checkbox, CheckboxGroup, Textarea, Modal, Spinner
-│       │   ├── layout/        # Navbar, StepIndicator
-│       │   └── form/          # StepOne, StepFour, and steps/ (planner, performer, crew)
-│       ├── hooks/             # useMultiStepForm, useFormPersist
-│       ├── lib/               # api.ts, utils.ts
-│       ├── schemas/           # Step & category Zod schemas
-│       └── types/             # Shared TypeScript models & discriminated union
-└── backend/                   # Express 4 (TypeScript)
+│       ├── app/                  # /, /requirements, /requirements/new
+│       ├── components/           # Layout, form steps, and UI controls
+│       ├── hooks/                # Multi-step state and sessionStorage persistence
+│       ├── lib/                  # API client and formatting helpers
+│       └── schemas/              # Client-side Zod schemas
+└── backend/
     ├── .env.example
-    ├── tsconfig.json
     ├── package.json
+    ├── tsconfig.json
     └── src/
-        ├── app.ts             # Express app setup, CORS, Helmet, Rate limits
-        ├── server.ts          # HTTP server bootstrapper
-        ├── config/db.ts       # Mongoose Atlas connection pool
-        ├── models/            # Mongoose Requirement schema
-        ├── controllers/       # Controller with Zod parse & Mongoose persist
-        ├── routes/            # Requirements & health routes
-        ├── middleware/        # Centralized error handler
-        ├── schemas/           # Backend discriminated union Zod schemas
-        └── types/             # Backend TypeScript interfaces
+        ├── app.ts                # Express app, middleware, and Vercel export
+        ├── server.ts             # Local HTTP server entrypoint
+        ├── config/db.ts          # Mongoose connection
+        ├── controllers/
+        ├── middleware/
+        ├── models/
+        ├── routes/
+        └── schemas/              # Server-side Zod validation
 ```
 
----
+## Requirements flow
 
-## 🛠️ Technology Stack
+1. **Basics:** event name and type, dates, location, optional venue, and service category.
+2. **Requirements:** category-specific attendance, role, services, equipment, quantity, duration, and INR budget fields.
+3. **Preferences:** category-specific logistics and optional notes.
+4. **Review:** inspect or edit the brief, then submit it.
 
-| Layer | Technology | Details |
-|---|---|---|
-| **Frontend Framework** | Next.js 16 (App Router) | React 19, TypeScript, Turbopack |
-| **Form Management** | React Hook Form | `@hookform/resolvers/zod` |
-| **Validation** | Zod 3.23.8 | Mirrored schemas on frontend & backend |
-| **Styling** | Vanilla CSS Modules | Glassmorphism, CSS Custom Properties, Responsive Grid |
-| **Backend Framework** | Node.js + Express 4 | TypeScript, Helmet, CORS |
-| **Database** | MongoDB Atlas (M0) | Mongoose 8.8.0 connection pooling |
-| **Deployment Target** | Vercel (Frontend) & Render (Backend) | Independent zero-cost tier hosting |
+The form stores its in-progress state in the current tab's `sessionStorage`, clears dependent category details after a confirmed category switch, and clears saved state after successful submission or reset. Client and server schemas validate submissions independently. Budgets are sent as numbers in INR.
 
----
+## Local setup
 
-## ⚡ Prerequisites
+Requirements: Node.js 20.9 or newer and npm.
 
-- **Node.js**: `v20.9.0` or higher (LTS recommended)
-- **npm**: `v10.0.0` or higher
-- **MongoDB**: A running local MongoDB instance or a free MongoDB Atlas connection string.
+Clone the repository and install each application's locked dependencies:
 
----
-
-## 💻 Local Setup & Execution
-
-### 1. Clone the repository
 ```bash
-git clone <repo-url>
-cd "Gopratle Event Platform"
+git clone https://github.com/Jude-00-05/Gopratle-Event-Platform.git
+cd Gopratle-Event-Platform
+npm ci --prefix backend
+npm ci --prefix frontend
 ```
 
-### 2. Configure Environment Variables
+Create local environment files from the committed examples:
 
-**Backend (`backend/.env`):**
 ```bash
 cp backend/.env.example backend/.env
-```
-Edit `backend/.env`:
-```env
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/gopratle?retryWrites=true&w=majority
-PORT=4000
-FRONTEND_URL=http://localhost:3000
-NODE_ENV=development
-```
-
-**Frontend (`frontend/.env.local`):**
-```bash
 cp frontend/.env.local.example frontend/.env.local
 ```
-Edit `frontend/.env.local`:
-```env
-NEXT_PUBLIC_API_URL=http://localhost:4000
-```
 
-### 3. Install Dependencies
+On PowerShell, use `Copy-Item` with the same source and destination paths. Set `MONGODB_URI` in `backend/.env` to a MongoDB Atlas URI available to your local machine. Do not commit the real URI. The frontend example points to the local backend at `http://localhost:4000`.
+
+Start the apps in separate terminals from the repository root:
 
 ```bash
-# In backend
-cd backend
-npm install
-
-# In frontend
-cd ../frontend
-npm install
-```
-
-### 4. Run Development Servers
-
-You can start both services from the root directory or independently:
-
-**From root:**
-```bash
-# Start backend (runs on http://localhost:4000)
 npm run dev:backend
-
-# In a separate terminal, start frontend (runs on http://localhost:3000)
 npm run dev:frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser. You will be redirected to `/requirements/new`.
+The frontend runs at <http://localhost:3000>; the local backend listens on port `4000` by default. The backend loads `backend/.env` through `dotenv`. It requires `MONGODB_URI`; `PORT` controls the local listener, while `FRONTEND_URL` adds an allowed CORS origin. Vercel invokes the exported app directly, so it does not use the local `PORT` listener.
 
----
+## Scripts and checks
 
-## 🌐 API Reference
+Root shortcuts:
 
-### Health Check
-- **`GET /health`**
-- **Response**: `200 OK`
-```json
-{
-  "status": "ok",
-  "timestamp": "2026-10-25T11:49:00.000Z"
-}
+```bash
+npm run dev:frontend
+npm run dev:backend
+npm run build:frontend
+npm run build:backend
 ```
 
-### Create Requirement
-- **`POST /api/requirements`**
-- **Headers**: `Content-Type: application/json`
-- **Request Body (Example - Performer)**:
-```json
-{
-  "eventName": "GoPratle Music Fest 2026",
-  "eventType": "Concert",
-  "startDate": "2026-12-15T00:00:00.000Z",
-  "endDate": "2026-12-16T00:00:00.000Z",
-  "location": "Bengaluru, Karnataka",
-  "venue": "Palace Grounds",
-  "category": "performer",
-  "details": {
-    "performanceType": "band",
-    "numberOfPerformers": 5,
-    "performanceDuration": 3,
-    "equipmentRequired": ["Drum kit", "In-ear monitors", "Wireless vocal mics"],
-    "estimatedBudget": 85000,
-    "lightingRequired": true,
-    "backlineRequired": true,
-    "stageSetup": "16x12 ft stage with drum riser",
-    "soundRequirements": "4 stage wedges, FOH console"
-  }
-}
-```
-- **Response `201 Created`**:
-```json
-{
-  "success": true,
-  "data": {
-    "_id": "6740a1b2c3d4e5f6a7b8c9d0",
-    "eventName": "GoPratle Music Fest 2026",
-    "category": "performer",
-    "status": "submitted",
-    "createdAt": "2026-10-25T12:00:00.000Z"
-  }
-}
-```
+Equivalent app-level build commands are `npm --prefix frontend run build` and `npm --prefix backend run build`. The frontend also provides `npm --prefix frontend run lint`. There is no test script or CI workflow in this repository.
 
----
+## API
 
-## 🚢 Deployment Guide
+The frontend API client reads `NEXT_PUBLIC_API_URL` as the API **base URL**, then constructs `/api/requirements` as an absolute URL. Local development uses `http://localhost:4000`; production uses `https://gopratle-event-api.vercel.app`.
 
-### Backend (Render)
-1. Push repository to GitHub.
-2. Create a new **Web Service** on [Render](https://render.com).
-3. Set **Root Directory** to `backend`.
-4. Set **Build Command** to `npm install && npm run build`.
-5. Set **Start Command** to `npm start`.
-6. Add Environment Variables:
-   - `MONGODB_URI`: Your MongoDB Atlas connection URI.
-   - `FRONTEND_URL`: Your Vercel frontend URL (e.g., `https://gopratle-events.vercel.app`).
-   - `NODE_ENV`: `production`
-7. Copy the assigned Render service URL (e.g. `https://gopratle-backend.onrender.com`).
+| Method | Path | Behavior |
+|---|---|---|
+| `GET` | `/api/requirements` | Returns `200` with `{ "success": true, "data": [...] }`, newest first. |
+| `POST` | `/api/requirements` | Validates the full category-specific payload. Returns `201` with `{ "success": true, "data": <saved document> }` only after MongoDB confirms the insert. Invalid payloads return `400` with `{ "success": false, "errors": ... }`. |
+| `GET` | `/health` | Returns `200` with a status and timestamp; it does not test MongoDB connectivity. |
 
-### Frontend (Vercel)
-1. Import repository to [Vercel](https://vercel.com).
-2. Set **Root Directory** to `frontend`.
-3. Add Environment Variable:
-   - `NEXT_PUBLIC_API_URL`: Your deployed backend URL (`https://gopratle-backend.onrender.com`).
-4. Deploy.
+Mongoose validation failures return `400`; duplicate-key errors return `409`. Unexpected errors return a generic `500` response in production. Development responses may include an error detail.
 
----
+The API's CORS middleware runs before the routes. It allows the deployed frontend origin `https://gopratle-event-platform.vercel.app`, local development at `http://localhost:3000`, and the optional `FRONTEND_URL` origin. CORS is a browser access policy, not authentication; the requirements API currently has no authentication middleware.
 
-## 📐 Assumptions & Design Decisions
+## Vercel deployment
 
-1. **Currency**: Indian Rupees (₹). Budgets are captured, validated, and stored as numeric integer/float values in MongoDB to support range querying, while formatted as INR strings (`₹85,000`) for display.
-2. **Session Storage vs Local Storage**: `sessionStorage` was chosen for form state recovery across page refreshes while ensuring stale state does not persist after tab closure.
-3. **Cold-Start Handling**: Render free instances spin down after inactivity; the frontend includes a 30s timeout with clear feedback distinguishing spin-up delays from server errors.
+The frontend and backend are separate Vercel projects connected to this repository.
+
+### Backend project
+
+1. Set **Root Directory** to `backend`.
+2. Use Vercel's Express framework detection. The Vercel entrypoint is `src/app.ts`, which default-exports the Express app; `src/server.ts` remains the local listener entrypoint.
+3. Leave **Output Directory** unset so Vercel deploys the Express function. Do not set it to `dist`; `dist` is the TypeScript build output, not a static site.
+4. If setting the build command explicitly, use `npm run build` from the backend project root.
+5. Configure `MONGODB_URI` in Vercel Production, Preview, and Development as appropriate. Add `NODE_ENV=production` if desired. No `PORT` setting is needed for the Vercel function.
+6. Deploy the backend project. Its API base URL is <https://gopratle-event-api.vercel.app>.
+
+There is no `vercel.json` in this repository; configure the Vercel project as described above so it deploys the Express function rather than treating `dist` as a static site.
+
+### Frontend project
+
+1. Set **Root Directory** to `frontend` and use the Next.js framework preset.
+2. Set `NEXT_PUBLIC_API_URL` for the **Production** environment to exactly `https://gopratle-event-api.vercel.app` (no endpoint path and no trailing slash). For local development, use `http://localhost:4000` in `frontend/.env.local`.
+3. Redeploy the frontend after changing this value. Next.js embeds `NEXT_PUBLIC_*` values into the browser bundle at build time.
+
+Do not put secrets in `NEXT_PUBLIC_*` variables. Keep the Atlas URI in the backend's private `MONGODB_URI` environment variable.
+
+## Security and data notes
+
+- Real `.env` and `.env.local` files are ignored by Git. Only environment templates belong in the repository.
+- The API validates JSON size and payload shape, uses Helmet, and restricts browser origins through CORS. The routes are unauthenticated, so do not treat CORS as protection from direct API clients or submit sensitive personal data.
+- No API rate limiting or automated test suite is configured. The submit button disables while a request is pending, but the API has no idempotency key; retrying after an ambiguous network failure can create a duplicate. Restored session data receives a top-level shape check, not full client-schema validation; the server validates every submitted payload. Follow-up improvements include focused form/API tests, idempotent submission, validating restored state, and evaluating authentication and rate limiting if the product needs private requirements or abuse protection.
+- A current-tree secret scan cannot establish whether credentials were ever committed in earlier Git history. Rotate any credential found in repository history and review that history separately.
