@@ -1,91 +1,12 @@
-.navbar {
-  height: 64px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-}
-
-.container {
-  max-width: 1000px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-}
-
-.logoBadge {
-  width: 34px;
-  height: 34px;
-  background: linear-gradient(135deg, var(--color-primary), #818cf8);
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 15px;
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-}
-
-.brandName {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  letter-spacing: -0.02em;
-}
-
-.tag {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-primary);
-  background: rgba(99, 102, 241, 0.1);
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-}
-
-.navLinks {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.navLink {
-  color: var(--color-text-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-.navLink:hover {
-  color: var(--color-primary);
-}
-
-.postBtn {
-  background: var(--color-primary);
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: opacity var(--transition-fast);
-}
-
-.postBtn:hover {
-  opacity: 0.92;
-}
+.navbar { position: sticky; z-index: 50; top: 0; display: flex; height: 68px; align-items: center; background: rgb(255 255 255 / 96%); border-bottom: 1px solid var(--color-border); }
+.container { display: flex; width: min(1120px, calc(100% - 48px)); align-items: center; justify-content: space-between; margin: 0 auto; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.logoBadge { display: grid; width: 31px; height: 31px; place-items: center; color: white; background: var(--color-primary); border-radius: 9px; font-family: Georgia, serif; font-size: 18px; font-weight: 700; }
+.brandName { color: var(--color-text-primary); font-size: 17px; font-weight: 700; letter-spacing: -.04em; }
+.tag { padding: 3px 7px; color: var(--color-primary); background: var(--color-primary-light); border-radius: var(--radius-sm); font-size: 10px; font-weight: 600; }
+.navLinks { display: flex; align-items: center; gap: 26px; }
+.navLink { color: var(--color-text-secondary); font-size: 13px; font-weight: 500; transition: color var(--transition-fast); }
+.navLink:hover { color: var(--color-primary); }
+.postBtn { display: inline-flex; min-height: 37px; align-items: center; justify-content: center; gap: 8px; padding: 0 13px; color: white; background: var(--color-primary); border-radius: var(--radius-md); font-size: 12px; font-weight: 600; transition: background var(--transition-fast); }
+.postBtn:hover { background: var(--color-primary-hover); }
+@media (max-width: 520px) { .container { width: calc(100% - 32px); } .navbar { height: 62px; } .navLinks { gap: 12px; } .navLink { font-size: 12px; } .postBtn { min-height: 35px; padding: 0 10px; font-size: 11px; } .tag { display: none; } }

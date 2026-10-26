@@ -17,7 +17,7 @@
 
 .input:focus {
   border-color: var(--color-border-focus);
-  box-shadow:   0 0 0 3px hsl(248 68% 58% / 0.12);
+  box-shadow:   var(--focus-ring);
 }
 
 .input.error {

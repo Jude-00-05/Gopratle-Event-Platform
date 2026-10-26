@@ -271,3 +271,12 @@
     width: 100%;
   }
 }
+
+.header, .sectionCard { border-color: var(--color-border); border-radius: var(--radius-xl); box-shadow: var(--shadow-card); }
+.header { padding: 25px 30px; }
+.title { font-size: 23px; font-weight: 600; letter-spacing: -.04em; }
+.sectionCard { padding: 24px 30px; }
+.sectionTitle { font-size: 15px; letter-spacing: -.02em; }
+.editBtn { border-radius: var(--radius-sm); }
+.editBtn:hover { color: var(--color-primary-hover); background: var(--color-primary-light); }
+@media (max-width: 640px) { .header, .sectionCard { padding: 19px; } .title { font-size: 21px; } }

@@ -28,7 +28,7 @@
 }
 .primary:hover:not(:disabled) {
   background: var(--color-primary-hover);
-  box-shadow: 0 4px 16px hsl(248 68% 58% / 0.3);
+  box-shadow: var(--shadow-sm);
   transform:  translateY(-1px);
 }
 .primary:active:not(:disabled) { transform: translateY(0); }

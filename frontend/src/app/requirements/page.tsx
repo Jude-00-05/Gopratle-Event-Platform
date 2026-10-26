@@ -7,6 +7,7 @@ import { fetchRequirements } from '@/lib/api';
 import { formatDate, formatINR, categoryLabel } from '@/lib/utils';
 import { Spinner } from '@/components/ui/Spinner';
 import styles from './page.module.css';
+import { AlertCircle, CalendarDays, ClipboardList, MapPin, RefreshCw } from 'lucide-react';
 
 export default function RequirementsListPage() {
   const [requirements, setRequirements] = useState<any[]>([]);
@@ -50,7 +51,7 @@ export default function RequirementsListPage() {
               </p>
             </div>
             <Link href="/requirements/new" className={styles.createBtn}>
-              + Post New Requirement
+              Post an event requirement
             </Link>
           </div>
 
@@ -72,7 +73,7 @@ export default function RequirementsListPage() {
               ))}
             </div>
             <button onClick={loadData} className={styles.refreshBtn} title="Refresh entries">
-              ↻ Refresh
+              <RefreshCw size={14} aria-hidden="true" /> Refresh
             </button>
           </div>
 
@@ -85,7 +86,7 @@ export default function RequirementsListPage() {
 
           {error && (
             <div className={styles.errorBox}>
-              <p className={styles.errorText}>⚠️ {error}</p>
+              <p className={styles.errorText}><AlertCircle size={16} aria-hidden="true" /> {error}</p>
               <button onClick={loadData} className={styles.retryBtn}>
                 Try Again
               </button>
@@ -94,7 +95,7 @@ export default function RequirementsListPage() {
 
           {!loading && !error && filteredRequirements.length === 0 && (
             <div className={styles.emptyBox}>
-              <div className={styles.emptyIcon}>📋</div>
+              <div className={styles.emptyIcon}><ClipboardList size={27} strokeWidth={1.7} aria-hidden="true" /></div>
               <h3>No requirements posted yet</h3>
               <p>Be the first to submit an event requirement!</p>
               <Link href="/requirements/new" className={styles.createBtn}>
@@ -121,13 +122,13 @@ export default function RequirementsListPage() {
 
                   <div className={styles.metaList}>
                     <div className={styles.metaRow}>
-                      <span className={styles.metaIcon}>📍</span>
+                      <span className={styles.metaIcon}><MapPin size={15} aria-hidden="true" /></span>
                       <span>
                         {item.location} {item.venue ? `(${item.venue})` : ''}
                       </span>
                     </div>
                     <div className={styles.metaRow}>
-                      <span className={styles.metaIcon}>📅</span>
+                      <span className={styles.metaIcon}><CalendarDays size={15} aria-hidden="true" /></span>
                       <span>
                         {formatDate(item.startDate?.split('T')[0])} —{' '}
                         {formatDate(item.endDate?.split('T')[0])}

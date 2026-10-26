@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'GoPratle — Post an Event Requirement',
+  title: 'GoPratle — Plan your next event',
   description:
-    'Submit your event requirement to GoPratle. Connect with event planners, performers, and crew for your next event.',
+    'Bring your event vision and the right people together with a clear, thoughtful brief.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
