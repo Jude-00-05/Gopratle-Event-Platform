@@ -1,21 +1,21 @@
-.page { min-height: 100vh; background: #fff; }
-.hero { overflow: hidden; background: #f3f0f7; }
+.page { min-height: 100vh; background: var(--color-background); }
+.hero { overflow: hidden; background: var(--color-background); }
 .heroInner { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 96px; align-items: center; width: min(1120px, calc(100% - 64px)); min-height: 510px; margin: 0 auto; padding: 76px 0 82px; }
 .heroCopy { max-width: 620px; }
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; color: var(--color-primary); font-size: 13px; font-weight: 600; }
 .heroCopy h1 { max-width: 600px; margin: 0 0 20px; font-size: clamp(42px, 5vw, 62px); font-weight: 600; letter-spacing: -.06em; line-height: 1.08; }
-.heroCopy h1 span { color: var(--color-primary); }
+.heroCopy h1 span { color: var(--color-primary); text-decoration: underline; text-decoration-color: var(--color-accent); text-decoration-thickness: .12em; text-underline-offset: .12em; }
 .heroCopy > p:not(.note) { max-width: 510px; margin: 0; color: var(--color-text-secondary); font-size: 17px; line-height: 1.7; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: 30px; }
 .primaryCta, .secondaryCta { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; font-size: 14px; font-weight: 600; transition: background var(--transition-base), color var(--transition-base), transform var(--transition-fast); }
-.primaryCta { padding: 0 18px; border-radius: var(--radius-md); color: white; background: var(--color-primary); box-shadow: var(--shadow-sm); }
+.primaryCta { padding: 0 18px; border-radius: var(--radius-md); color: var(--color-text-inverse); background: var(--color-primary); box-shadow: var(--shadow-sm); }
 .primaryCta:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
 .secondaryCta { color: var(--color-text-secondary); }
 .secondaryCta:hover { color: var(--color-primary); }
 .note { margin-top: 19px; color: var(--color-text-muted); font-size: 12px; }
-.heroAside { position: relative; padding: 25px 26px 20px; background: #fff; border: 1px solid #e7e1ee; border-radius: var(--radius-xl); box-shadow: var(--shadow-md); }
+.heroAside { position: relative; padding: 25px 26px 20px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); }
 .asideTop { display: flex; align-items: center; gap: 9px; color: var(--color-text-secondary); font-size: 12px; font-weight: 600; }
-.liveDot { width: 8px; height: 8px; border-radius: 50%; background: #74a888; }
+.liveDot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-light); }
 .asideRule { height: 1px; margin: 21px 0 24px; background: var(--color-border); }
 .asideLabel { margin: 0 0 7px; color: var(--color-text-muted); font-size: 12px; }
 .asideHeadline { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -.04em; line-height: 1.25; }
@@ -23,7 +23,7 @@
 .asideItems span { display: flex; align-items: center; gap: 11px; color: var(--color-text-secondary); font-size: 13px; }
 .asideItems svg { color: var(--color-primary); }
 .asideFoot { padding-top: 15px; border-top: 1px solid var(--color-border); color: var(--color-text-muted); font-size: 11px; }
-.process { background: white; }
+.process { background: var(--color-surface); }
 .processInner { width: min(1120px, calc(100% - 64px)); margin: 0 auto; padding: 70px 0 32px; }
 .sectionHeading h2 { margin: 0 0 9px; font-size: 30px; font-weight: 600; }
 .sectionHeading p { margin: 0; color: var(--color-text-secondary); font-size: 14px; }
@@ -31,7 +31,7 @@
 .step { padding-top: 16px; border-top: 1px solid var(--color-border); }
 .stepTop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
 .stepIcon { display: grid; width: 38px; height: 38px; place-items: center; color: var(--color-primary); background: var(--color-primary-light); border-radius: 10px; }
-.stepNumber { color: #a39ca9; font-size: 12px; font-variant-numeric: tabular-nums; }
+.stepNumber { color: var(--color-text-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .step h3 { margin: 0 0 8px; font-size: 16px; font-weight: 600; letter-spacing: -.02em; }
 .step p { max-width: 300px; margin: 0; color: var(--color-text-secondary); font-size: 13px; line-height: 1.7; }
 .bottomCta { display: flex; align-items: center; justify-content: space-between; padding: 19px 0 14px; border-top: 1px solid var(--color-border); }

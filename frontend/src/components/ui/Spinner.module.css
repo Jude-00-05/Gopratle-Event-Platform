@@ -1,6 +1,6 @@
 .spinner {
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--color-border);
   border-top-color: currentColor;
   animation: spin 0.7s linear infinite;
   display: inline-block;
