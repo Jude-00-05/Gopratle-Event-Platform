@@ -1,41 +1,66 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Navbar } from '@/components/layout/Navbar';
 import { fetchRequirements } from '@/lib/api';
 import { formatDate, formatINR, categoryLabel } from '@/lib/utils';
 import { Spinner } from '@/components/ui/Spinner';
 import styles from './page.module.css';
-import { AlertCircle, CalendarDays, ClipboardList, MapPin, RefreshCw } from 'lucide-react';
+import { AlertCircle, CalendarDays, ClipboardList, Eye, MapPin, RefreshCw, X } from 'lucide-react';
+import { getRequirementDisplayFields } from '@/lib/requirementDisplay';
+import type { RequirementPayload } from '@/types/requirement.types';
+
+type BrowseRequirement = RequirementPayload & {
+  _id: string;
+  createdAt: string;
+  [key: string]: unknown;
+};
 
 export default function RequirementsListPage() {
-  const [requirements, setRequirements] = useState<any[]>([]);
+  const [requirements, setRequirements] = useState<BrowseRequirement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [selectedRequirement, setSelectedRequirement] = useState<BrowseRequirement | null>(null);
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (!selectedRequirement) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedRequirement(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedRequirement]);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await fetchRequirements();
       setRequirements(data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to connect to backend server');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to connect to backend server');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => { void loadData(); }, 0);
+    return () => window.clearTimeout(timer);
+  }, [loadData]);
 
   const filteredRequirements = requirements.filter((item) => {
     if (filterCategory === 'all') return true;
     return item.category === filterCategory;
   });
+  const selectedCategory = typeof selectedRequirement?.category === 'string'
+    ? selectedRequirement.category
+    : '';
+  const selectedEventName = typeof selectedRequirement?.eventName === 'string'
+    ? selectedRequirement.eventName
+    : 'Event requirement';
 
   return (
     <div className={styles.page}>
@@ -197,6 +222,15 @@ export default function RequirementsListPage() {
                     )}
                   </div>
 
+                  <button
+                    type="button"
+                    className={styles.viewDetailsBtn}
+                    onClick={() => setSelectedRequirement(item)}
+                    aria-label={`View all details for ${item.eventName || 'event requirement'}`}
+                  >
+                    <Eye size={15} aria-hidden="true" /> View Details
+                  </button>
+
                   <div className={styles.cardFooter}>
                     <span className={styles.refId}>ID: {item._id}</span>
                     <span className={styles.createdDate}>
@@ -209,6 +243,51 @@ export default function RequirementsListPage() {
           )}
         </div>
       </main>
+
+      {selectedRequirement && (
+        <div
+          className={styles.detailsOverlay}
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setSelectedRequirement(null);
+          }}
+        >
+          <section
+            className={styles.detailsDialog}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="requirement-dialog-title"
+          >
+            <header className={styles.detailsDialogHeader}>
+              <div>
+                <span className={`${styles.badge} ${styles[selectedCategory] || ''}`}>
+                  {categoryLabel(selectedCategory)}
+                </span>
+                <h2 id="requirement-dialog-title" className={styles.detailsDialogTitle}>
+                  {selectedEventName}
+                </h2>
+              </div>
+              <button
+                type="button"
+                className={styles.closeDetailsBtn}
+                onClick={() => setSelectedRequirement(null)}
+                aria-label="Close requirement details"
+                autoFocus
+              >
+                <X size={18} aria-hidden="true" />
+              </button>
+            </header>
+            <dl className={styles.detailsFields}>
+              {getRequirementDisplayFields(selectedRequirement).map(({ label, value }) => (
+                <div className={styles.detailsField} key={label}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        </div>
+      )}
     </div>
   );
 }
