@@ -10,11 +10,18 @@ export function createApp(): express.Application {
   // Security headers
   app.use(helmet());
 
-  // CORS — only allow the configured frontend origin
+  // CORS must run before routes so browser preflight requests finish here.
+  const allowedOrigins = [
+    'https://gopratle-event-platform.vercel.app',
+    'http://localhost:3000',
+    process.env.FRONTEND_URL,
+  ].filter((origin): origin is string => Boolean(origin));
+
   app.use(
     cors({
-      origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
+      origin: allowedOrigins,
       methods: ['GET', 'POST', 'OPTIONS'],
+      optionsSuccessStatus: 204,
     })
   );
 
@@ -34,3 +41,7 @@ export function createApp(): express.Application {
 
   return app;
 }
+
+const app = createApp();
+
+export default app;

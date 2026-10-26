@@ -1,13 +1,12 @@
 import 'dotenv/config';
 import { connectDB } from './config/db';
-import { createApp } from './app';
+import app from './app';
 
 const PORT = process.env.PORT ?? 4000;
 
 async function start(): Promise<void> {
   try {
     await connectDB();
-    const app = createApp();
     app.listen(PORT, () => {
       console.log(`🚀 Server listening on port ${PORT}`);
     });

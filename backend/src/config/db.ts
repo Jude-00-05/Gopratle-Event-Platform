@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 let isConnected = false;
+let connectionPromise: Promise<void> | null = null;
 
 export async function connectDB(): Promise<void> {
   if (isConnected) return;
@@ -10,10 +11,20 @@ export async function connectDB(): Promise<void> {
     throw new Error('MONGODB_URI environment variable is not set');
   }
 
-  await mongoose.connect(uri, {
-    maxPoolSize: 10, // reuse connections across requests; do not open a new connection per request
-  });
+  if (!connectionPromise) {
+    connectionPromise = mongoose
+      .connect(uri, {
+        maxPoolSize: 10, // reuse connections across requests; do not open a new connection per request
+      })
+      .then(() => {
+        isConnected = true;
+        console.log('\u2705 MongoDB connected');
+      })
+      .catch((error: unknown) => {
+        connectionPromise = null;
+        throw error;
+      });
+  }
 
-  isConnected = true;
-  console.log('✅ MongoDB connected');
+  await connectionPromise;
 }

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { connectDB } from '../config/db';
 import { requirementPayloadSchema } from '../schemas/requirement.schema';
 import { Requirement } from '../models/Requirement.model';
 
@@ -27,6 +28,8 @@ export async function createRequirement(
   };
 
   try {
+    await connectDB();
+
     // 3. Persist — success response is only returned after MongoDB confirms the write
     const saved = await Requirement.create(docData);
 
@@ -46,6 +49,8 @@ export async function getRequirements(
   next: NextFunction
 ): Promise<void> {
   try {
+    await connectDB();
+
     const list = await Requirement.find().sort({ createdAt: -1 }).lean();
     res.json({
       success: true,
