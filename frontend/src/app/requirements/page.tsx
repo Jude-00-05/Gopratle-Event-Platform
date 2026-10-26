@@ -50,9 +50,6 @@ export default function RequirementsListPage() {
                 Browse all client event requirements submitted to the GoPratle platform.
               </p>
             </div>
-            <Link href="/requirements/new" className={styles.createBtn}>
-              Post an event requirement
-            </Link>
           </div>
 
           <div className={styles.filterBar}>

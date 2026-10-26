@@ -4,11 +4,17 @@ export const stepOneSchema = z
   .object({
     eventName: z
       .string({ required_error: 'Event name is required' })
+      .trim()
       .min(1, 'Event name is required')
       .max(200, 'Event name must be 200 characters or fewer'),
     eventType: z
       .string({ required_error: 'Event type is required' })
-      .min(1, 'Please select an event type'),
+      .trim()
+      .min(1, 'Please select an event type')
+      .refine(
+        (value) => ['Wedding', 'Concert', 'College Festival', 'Corporate Event', 'Birthday', 'Private Party', 'Other'].includes(value),
+        'Please select a valid event type'
+      ),
     startDate: z
       .string({ required_error: 'Start date is required' })
       .min(1, 'Start date is required'),
@@ -17,9 +23,10 @@ export const stepOneSchema = z
       .min(1, 'End date is required'),
     location: z
       .string({ required_error: 'Location is required' })
+      .trim()
       .min(1, 'Location is required')
       .max(200, 'Location must be 200 characters or fewer'),
-    venue: z.string().max(200, 'Venue must be 200 characters or fewer').optional(),
+    venue: z.string().trim().max(200, 'Venue must be 200 characters or fewer').optional(),
     category: z.enum(['planner', 'performer', 'crew'] as const, {
       errorMap: () => ({ message: 'Please select a category' }),
     }),

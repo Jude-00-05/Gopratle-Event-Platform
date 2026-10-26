@@ -6,11 +6,13 @@ import { z } from 'zod';
 const baseEventObject = z.object({
   eventName: z
     .string({ required_error: 'Event name is required' })
+    .trim()
     .min(1, 'Event name is required')
     .max(200),
-  eventType: z
-    .string({ required_error: 'Event type is required' })
-    .min(1, 'Event type is required'),
+  eventType: z.enum(
+    ['Wedding', 'Concert', 'College Festival', 'Corporate Event', 'Birthday', 'Private Party', 'Other'],
+    { errorMap: () => ({ message: 'Event type is required' }) }
+  ),
   startDate: z
     .string({ required_error: 'Start date is required' })
     .datetime({ message: 'Start date must be a valid ISO 8601 datetime' }),
@@ -19,9 +21,10 @@ const baseEventObject = z.object({
     .datetime({ message: 'End date must be a valid ISO 8601 datetime' }),
   location: z
     .string({ required_error: 'Location is required' })
+    .trim()
     .min(1, 'Location is required')
     .max(200),
-  venue: z.string().max(200).optional(),
+  venue: z.string().trim().max(200).optional(),
 });
 
 // ---------------------------------------------------------------------------
