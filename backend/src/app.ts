@@ -12,7 +12,7 @@ export function createApp(): express.Application {
 
   // CORS must run before routes so browser preflight requests finish here.
   const allowedOrigins = [
-    'https://gopratle-event-platform.vercel.app',
+    'https://evently-event-platform.vercel.app',
     'http://localhost:3000',
     process.env.FRONTEND_URL,
   ].filter((origin): origin is string => Boolean(origin));

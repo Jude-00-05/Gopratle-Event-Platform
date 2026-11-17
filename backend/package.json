@@ -1,7 +1,7 @@
 {
-  "name": "gopratle-backend",
+  "name": "evently-backend",
   "version": "1.0.0",
-  "description": "GoPratle Event Platform — Express API backend",
+  "description": "Evently Event Platform — Express API backend",
   "scripts": {
     "dev":   "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",

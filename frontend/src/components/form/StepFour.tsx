@@ -49,7 +49,7 @@ export const StepFour: React.FC<StepFourProps> = ({
         </div>
         <h2 className={styles.successTitle}>Requirement Posted Successfully!</h2>
         <p className={styles.successSubtitle}>
-          Your event requirement has been confirmed and stored in the GoPratle database.
+          Your event requirement has been confirmed and stored in the Evently database.
         </p>
 
         <div className={styles.idBox}>
@@ -400,7 +400,7 @@ export const StepFour: React.FC<StepFourProps> = ({
 
       {/* Section 2: Requirements */}
       <section className={styles.sectionCard}>
-        <div className={styles.sectionHeader}>
+               <div className={styles.sectionHeader}>
           <h3 className={styles.sectionTitle}>
             2. Core Requirements ({categoryLabel(step1Data.category)})
           </h3>

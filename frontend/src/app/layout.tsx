@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'GoPratle — Plan your next event',
+  title: 'Evently — Plan your next event',
   description:
     'Bring your event vision and the right people together with a clear, thoughtful brief.',
 };

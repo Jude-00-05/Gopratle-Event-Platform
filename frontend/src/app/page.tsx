@@ -6,7 +6,7 @@ import styles from './page.module.css';
 const steps = [
   { icon: CalendarDays, title: 'Share the occasion', copy: 'Tell us what you’re planning, when it is, and where it will happen.' },
   { icon: UsersRound, title: 'Set your requirements', copy: 'Choose a planner, performer, or crew and spell out what you need.' },
-  { icon: ClipboardCheck, title: 'Review your brief', copy: 'Check the details and send one clear brief to the GoPratle team.' },
+  { icon: ClipboardCheck, title: 'Review your brief', copy: 'Check the details and send one clear brief to the Evently team.' },
 ];
 
 export default function Home() {
@@ -58,7 +58,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className={styles.footer}><span>GoPratle</span><span>Plan well. Celebrate fully.</span><Link href="/requirements">Browse requirements</Link></footer>
+      <footer className={styles.footer}><span>Evently</span><span>Plan well. Celebrate fully.</span><Link href="/requirements">Browse requirements</Link></footer>
     </div>
   );
 }

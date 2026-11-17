@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-const STORAGE_KEY = 'gopratle_form_v1'; // bump suffix when form schema changes
+const STORAGE_KEY = 'evently_form_v1'; // bump suffix when form schema changes
 
 type Setter = (data: unknown) => void;
 

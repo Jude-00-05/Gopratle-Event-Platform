@@ -34,3 +34,7 @@ Desktop.ini
 .idea/
 .vscode/settings.json
 *.tsbuildinfo
+.andromity/
+
+
+DEMO_PLAYBOOK.md

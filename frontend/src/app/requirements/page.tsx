@@ -72,7 +72,7 @@ export default function RequirementsListPage() {
             <div>
               <h1 className={styles.title}>All Event Requirements</h1>
               <p className={styles.subtitle}>
-                Browse all client event requirements submitted to the GoPratle platform.
+                Browse all client event requirements submitted to the Evently platform.
               </p>
             </div>
           </div>

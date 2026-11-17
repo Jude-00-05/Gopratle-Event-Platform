@@ -1,12 +1,12 @@
-# GoPratle Event Platform
+# Evently Event Platform
 
-GoPratle is a full-stack event requirement app built for the GoPratle Full-Stack Developer Intern assignment. Customers describe an event in a four-step form, select a planner, performer, or crew, review the brief, and submit it to the API. Requirements are validated with Zod and stored in MongoDB Atlas through Mongoose.
+Evently is a full-stack event requirement app built for the Evently Full-Stack Developer Intern assignment. Customers describe an event in a four-step form, select a planner, performer, or crew, review the brief, and submit it to the API. Requirements are validated with Zod and stored in MongoDB Atlas through Mongoose.
 
 ## Deployed application
 
-- Frontend: <https://gopratle-event-platform.vercel.app>
-- Backend API: <https://gopratle-event-api.vercel.app>
-- Repository: <https://github.com/Jude-00-05/Gopratle-Event-Platform>
+- Frontend: <https://evently-event-platform.vercel.app>
+- Backend API: <https://evently-event-api.vercel.app>
+- Repository: <https://github.com/Jude-00-05/Evently-Event-Platform>
 - Database: MongoDB Atlas
 
 ## Stack
@@ -62,8 +62,8 @@ Requirements: Node.js 20.9 or newer and npm.
 Clone the repository and install each application's locked dependencies:
 
 ```bash
-git clone https://github.com/Jude-00-05/Gopratle-Event-Platform.git
-cd Gopratle-Event-Platform
+git clone https://github.com/Jude-00-05/Evently-Event-Platform.git
+cd Evently-Event-Platform
 npm ci --prefix backend
 npm ci --prefix frontend
 ```
@@ -101,7 +101,7 @@ Equivalent app-level build commands are `npm --prefix frontend run build` and `n
 
 ## API
 
-The frontend API client reads `NEXT_PUBLIC_API_URL` as the API **base URL**, then constructs `/api/requirements` as an absolute URL. Local development uses `http://localhost:4000`; production uses `https://gopratle-event-api.vercel.app`.
+The frontend API client reads `NEXT_PUBLIC_API_URL` as the API **base URL**, then constructs `/api/requirements` as an absolute URL. Local development uses `http://localhost:4000`; production uses `https://evently-event-api.vercel.app`.
 
 | Method | Path | Behavior |
 |---|---|---|
@@ -111,7 +111,7 @@ The frontend API client reads `NEXT_PUBLIC_API_URL` as the API **base URL**, the
 
 Mongoose validation failures return `400`; duplicate-key errors return `409`. Unexpected errors return a generic `500` response in production. Development responses may include an error detail.
 
-The API's CORS middleware runs before the routes. It allows the deployed frontend origin `https://gopratle-event-platform.vercel.app`, local development at `http://localhost:3000`, and the optional `FRONTEND_URL` origin. CORS is a browser access policy, not authentication; the requirements API currently has no authentication middleware.
+The API's CORS middleware runs before the routes. It allows the deployed frontend origin `https://evently-event-platform.vercel.app`, local development at `http://localhost:3000`, and the optional `FRONTEND_URL` origin. CORS is a browser access policy, not authentication; the requirements API currently has no authentication middleware.
 
 ## Vercel deployment
 
@@ -124,14 +124,14 @@ The frontend and backend are separate Vercel projects connected to this reposito
 3. Leave **Output Directory** unset so Vercel deploys the Express function. Do not set it to `dist`; `dist` is the TypeScript build output, not a static site.
 4. If setting the build command explicitly, use `npm run build` from the backend project root.
 5. Configure `MONGODB_URI` in Vercel Production, Preview, and Development as appropriate. Add `NODE_ENV=production` if desired. No `PORT` setting is needed for the Vercel function.
-6. Deploy the backend project. Its API base URL is <https://gopratle-event-api.vercel.app>.
+6. Deploy the backend project. Its API base URL is <https://evently-event-api.vercel.app>.
 
 There is no `vercel.json` in this repository; configure the Vercel project as described above so it deploys the Express function rather than treating `dist` as a static site.
 
 ### Frontend project
 
 1. Set **Root Directory** to `frontend` and use the Next.js framework preset.
-2. Set `NEXT_PUBLIC_API_URL` for the **Production** environment to exactly `https://gopratle-event-api.vercel.app` (no endpoint path and no trailing slash). For local development, use `http://localhost:4000` in `frontend/.env.local`.
+2. Set `NEXT_PUBLIC_API_URL` for the **Production** environment to exactly `https://evently-event-api.vercel.app` (no endpoint path and no trailing slash). For local development, use `http://localhost:4000` in `frontend/.env.local`.
 3. Redeploy the frontend after changing this value. Next.js embeds `NEXT_PUBLIC_*` values into the browser bundle at build time.
 
 Do not put secrets in `NEXT_PUBLIC_*` variables. Keep the Atlas URI in the backend's private `MONGODB_URI` environment variable.

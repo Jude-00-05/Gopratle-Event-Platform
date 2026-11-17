@@ -1,4 +1,4 @@
-# GoPratle frontend
+# Evently frontend
 
 This directory contains the Next.js frontend. For repository setup, environment variables, development, API usage, and Vercel deployment instructions, see the [root README](../README.md).
 

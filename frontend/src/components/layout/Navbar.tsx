@@ -8,7 +8,7 @@ export const Navbar: React.FC = () => {
       <div className={styles.container}>
         <Link href="/" className={styles.brand}>
           <div className={styles.logoBadge} aria-hidden="true">G</div>
-          <span className={styles.brandName}>GoPratle</span>
+          <span className={styles.brandName}>Evently</span>
           <span className={styles.tag}>Events</span>
         </Link>
         <nav className={styles.navLinks}>
